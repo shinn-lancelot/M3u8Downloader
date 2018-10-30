@@ -1,4 +1,3 @@
-import downloader.downloader
 # import requests
 # import re
 
@@ -10,17 +9,17 @@ import downloader.downloader
 # res = requests.get(url, headers = headers)
 # print(res.text)
 
-options = {
-    'm3u8Url': '',
-    'saveDir': '',
-    'file': '',
-    'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
-}
+# options = {
+#     'm3u8Url': '',
+#     'saveDir': '',
+#     'file': '',
+#     'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
+# }
 
-options['m3u8Url'] = 'http://vfile.haining.tv/2018/1540/4678/1712/154046781712.ssm/154046781712.m3u8'
-options['saveDir'] = 'download/'
-options['file'] = 'video.mp4'
-options['downloadParams'] = ''
+# options['m3u8Url'] = 'http://vfile.haining.tv/2018/1540/4678/1712/154046781712.ssm/154046781712.m3u8'
+# options['saveDir'] = 'download/'
+# options['file'] = 'video.mp4'
+# options['downloadParams'] = ''
 
-down = downloader.Download(options)
-down.download()
+# down = downloader.Download(options)
+# down.download()

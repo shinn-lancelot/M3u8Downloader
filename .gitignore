@@ -1,4 +1,5 @@
 .vscode
 download
-downloader.pyc
+*.pyc
 .DS_Store
+__pycache__
