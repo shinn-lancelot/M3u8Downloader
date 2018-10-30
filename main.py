@@ -1,4 +1,4 @@
-import download
+import downloader.downloader
 # import requests
 # import re
 
@@ -22,5 +22,5 @@ options['saveDir'] = 'download/'
 options['file'] = 'video.mp4'
 options['downloadParams'] = ''
 
-down = download.Download(options)
+down = downloader.Download(options)
 down.download()

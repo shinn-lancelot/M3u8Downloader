@@ -5,7 +5,7 @@ import os
 """
 下载/提取m3u8视频
 """
-class Download:
+class Downloader:
     def __init__(self, options = {}):
         self.options = options
 
