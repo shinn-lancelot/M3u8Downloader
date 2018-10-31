@@ -3,3 +3,5 @@ download
 *.pyc
 .DS_Store
 __pycache__
+.idea
+ip_info.json
