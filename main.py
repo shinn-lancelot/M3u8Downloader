@@ -1,4 +1,7 @@
+# -*- coding: UTF-8 -*-
+
 from spider import m3u8Spider
+from downloader import downloader
 
 # import requests
 # import re
@@ -26,5 +29,37 @@ from spider import m3u8Spider
 # down = downloader.Download(options)
 # down.download()
 
-p = m3u8Spider.M3u8Spider('')
-p.createProxyIpPool()
+# 实例化爬虫
+p = m3u8Spider.M3u8Spider('http://www.haining.tv/news/folder13/2018-10-25/209213.html')
+# 创建代理ip池
+# p.createProxyIpPool()
+# 生成代理地址
+proxyUrl = p.getProxyUrl()
+# 生成用户代理
+userAgent = p.getUserAgent()
+header = {
+    'user-agent': userAgent
+}
+# 获取m3u8di地址列表
+m3u8List = p.getM3u8List(proxyUrl, header)
+m3u8Url = ''
+saveDir = 'download/'
+file = 'video.mp4'
+print(m3u8List)
+
+
+# # 初始化下载参数
+# options = {
+#     'm3u8Url': '',
+#     'saveDir': '',
+#     'file': '',
+#     'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
+# }
+# options['m3u8Url'] = m3u8Url
+# options['saveDir'] = saveDir
+# options['file'] = file
+
+# # 提取m3u8流，生成mp4
+# down = downloader.Downloader(options)
+# res = down.download()
+# print(res)

@@ -1,4 +1,5 @@
 # -*- coding: UTF-8 -*-
+
 import urllib3
 import threading
 import json
@@ -30,7 +31,7 @@ class ProxyIpSpider:
             self.page += 1
 
     def parser(self, html):
-        if html is None:
+        if html == '':
             return
         soup = BeautifulSoup(html, 'html.parser', from_encoding = 'utf-8')
         # 第一栏表头不获取
