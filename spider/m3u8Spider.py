@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import proxyIpSpider
+from spider import proxyIpSpider
 
 """
 爬取m3u8链接

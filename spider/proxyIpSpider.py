@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 import urllib3
-from bs4 import BeautifulSoup
 import threading
 import json
+from bs4 import BeautifulSoup
 
 """
 高匿代理Ip爬虫

@@ -1,3 +1,5 @@
+from spider import m3u8Spider
+
 # import requests
 # import re
 
@@ -23,3 +25,6 @@
 
 # down = downloader.Download(options)
 # down.download()
+
+p = m3u8Spider.M3u8Spider('')
+p.createProxyIpPool()
