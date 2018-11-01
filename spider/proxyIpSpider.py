@@ -34,6 +34,11 @@ class ProxyIpSpider:
             self.parser(res.data)
             self.page += 1
 
+        # ipInfo列表写入文件
+        fp = open('db/ip_info.json', 'w')
+        json.dump(self.ipList, fp)
+        return True
+
     def parser(self, html):
         if html == '':
             return
@@ -61,12 +66,6 @@ class ProxyIpSpider:
 
             except Exception:
                 print(ipInfo['ip'] + ' is a bad ip')
-
-
-        # ipInfo列表写入文件
-        fp = open('db/ip_info.json', 'w')
-        json.dump(self.ipList, fp)
-        return True
 
     def detect(self, ipInfo = {}):
         proxyHost = ipInfo['protocol'] + '://' + ipInfo['ip'] + ':' + ipInfo['port']
