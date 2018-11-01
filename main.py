@@ -22,14 +22,14 @@ p = m3u8Spider.M3u8Spider(websiteUrl)
 # 创建代理ip池
 # p.createProxyIpPool()
 # 生成代理地址
-proxyUrl = p.getProxyUrl()
+# proxyUrl = p.getProxyUrl()
 # 生成用户代理
 userAgent = p.getUserAgent()
 header = {
     'user-agent': userAgent
 }
 # 获取m3u8di地址列表
-m3u8List = p.getM3u8List(proxyUrl, header)
+m3u8List = p.getM3u8List('', header)
 print(m3u8List)
 
 if len(m3u8List) > 0:
