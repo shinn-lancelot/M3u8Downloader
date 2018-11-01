@@ -10,12 +10,12 @@ from sys import argv
 
 websiteUrl = ''
 if len(argv) < 2:
-    exit('请输入要网页地址')
+    exit('请输入网页地址')
 else:
     websiteUrl = argv[1]
 
 if websiteUrl == '':
-    exit('请输入要网页地址')
+    exit('请输入网页地址')
 
 # 实例化爬虫
 p = m3u8Spider.M3u8Spider(websiteUrl)
