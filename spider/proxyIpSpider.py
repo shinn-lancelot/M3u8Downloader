@@ -3,6 +3,7 @@
 import urllib3
 import threading
 import json
+import os
 from bs4 import BeautifulSoup
 
 """
@@ -23,6 +24,9 @@ class ProxyIpSpider:
         self.ipList = []
 
     def spider(self):
+        if os.access('db/ip_info.json', os.F_OK):
+            return True
+
         http = urllib3.PoolManager()
         while (self.page <= 1):
             p = self.page
@@ -62,6 +66,7 @@ class ProxyIpSpider:
         # ipInfo列表写入文件
         fp = open('db/ip_info.json', 'w')
         json.dump(self.ipList, fp)
+        return True
 
     def detect(self, ipInfo = {}):
         proxyHost = ipInfo['protocol'] + '://' + ipInfo['ip'] + ':' + ipInfo['port']

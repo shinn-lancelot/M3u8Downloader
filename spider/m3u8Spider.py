@@ -4,6 +4,7 @@ import json
 import random
 import urllib3
 import re
+import os
 from spider import proxyIpSpider
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -17,12 +18,24 @@ class M3u8Spider:
 
     def createProxyIpPool(self):
         p = proxyIpSpider.ProxyIpSpider()
-        p.spider()
+        if p.spider():
+            return True
+        else:
+            exit('创建代理ip池失败')
 
     def getProxyUrl(self):
-        fp = open('db/ip_info.json', encoding = 'utf-8')
-        ipInfolist = json.load(fp)
-        ipInfo = random.choice(ipInfolist)
+        ipInfo = []
+        if os.access('db/ip_info.json', os.F_OK):
+            if os.access('db/ip_info.json', os.R_OK):
+                fp = open('db/ip_info.json', encoding='utf-8')
+                ipInfolist = json.load(fp)
+                ipInfo = random.choice(ipInfolist)
+                fp.close()
+            else:
+                exit('代理ip信息文件不可读')
+        else:
+            exit('代理ip信息文件不存在')
+
         return ipInfo['protocol'].lower() + '://' + ipInfo['ip'] + ':' + ipInfo['port']
 
     def getUserAgent(self):
