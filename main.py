@@ -1,36 +1,24 @@
 # -*- coding: UTF-8 -*-
 
+import random
+import string
 from spider import m3u8Spider
 from downloader import downloader
+from sys import argv
 
-# import requests
-# import re
+# example:python3 main http://www.jiaxingren.com/folder24/folder147/folder149/folder170/2018-10-25/416269.html
 
-# url = 'http://www.haining.tv/news/folder13/2018-10-25/209213.html'
-# url = 'http://www.haining.tv/m2o/livmedia.php?id=53566&colid=13'
-# headers = {
-#     'user-agent': 'Mozilla/5.0 (Linux; U; Android 8.1.0; zh-CN; MI 8 Build/OPM1.171019.026) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.108 UCBrowser/12.1.7.997 Mobile Safari/537.36'
-# }
-# res = requests.get(url, headers = headers)
-# print(res.text)
+websiteUrl = ''
+if len(argv) < 2:
+    exit('请输入要网页地址')
+else:
+    websiteUrl = argv[1]
 
-# options = {
-#     'm3u8Url': '',
-#     'saveDir': '',
-#     'file': '',
-#     'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
-# }
-
-# options['m3u8Url'] = 'http://vfile.haining.tv/2018/1540/4678/1712/154046781712.ssm/154046781712.m3u8'
-# options['saveDir'] = 'download/'
-# options['file'] = 'video.mp4'
-# options['downloadParams'] = ''
-
-# down = downloader.Download(options)
-# down.download()
+if websiteUrl == '':
+    exit('请输入要网页地址')
 
 # 实例化爬虫
-p = m3u8Spider.M3u8Spider('http://www.haining.tv/news/folder13/2018-10-25/209213.html')
+p = m3u8Spider.M3u8Spider(websiteUrl)
 # 创建代理ip池
 # p.createProxyIpPool()
 # 生成代理地址
@@ -42,24 +30,24 @@ header = {
 }
 # 获取m3u8di地址列表
 m3u8List = p.getM3u8List(proxyUrl, header)
-m3u8Url = ''
-saveDir = 'download/'
-file = 'video.mp4'
 print(m3u8List)
 
+if len(m3u8List) > 0:
+    saveDir = 'download/'
+    file = 'video.mp4'
+    # 初始化下载参数
+    options = {
+        'm3u8Url': '',
+        'saveDir': saveDir,
+        'file': file,
+        'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
+    }
+    for m3u8Url in m3u8List:
+        options['m3u8Url'] = m3u8Url
+        options['file'] = ''.join(random.sample(
+            string.ascii_letters + string.digits, 16)) + '.mp4'
 
-# # 初始化下载参数
-# options = {
-#     'm3u8Url': '',
-#     'saveDir': '',
-#     'file': '',
-#     'downloadParams': '-vcodec copy -acodec copy -absf aac_adtstoasc'
-# }
-# options['m3u8Url'] = m3u8Url
-# options['saveDir'] = saveDir
-# options['file'] = file
-
-# # 提取m3u8流，生成mp4
-# down = downloader.Downloader(options)
-# res = down.download()
-# print(res)
+        # 提取m3u8流，生成mp4
+        down = downloader.Downloader(options)
+        res = down.download()
+        print(res)

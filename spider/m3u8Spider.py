@@ -5,6 +5,7 @@ import random
 import urllib3
 import re
 from spider import proxyIpSpider
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 """
 爬取m3u8链接
@@ -34,16 +35,28 @@ class M3u8Spider:
 
     def getM3u8List(self, proxyUrl, headers):
         m3u8UrlList = []
+
         if proxyUrl == '':
             http = urllib3.PoolManager()
         else:
             http = urllib3.ProxyManager(proxyUrl)
         res = http.request('get', self.url, headers = headers)
         html = res.data
-        return html
-        # 匹配m3u8链接
-        pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+.m3u8')
-        m3u8UrlList = re.findall(pattern, html)
+        html = html.decode('utf-8')
+        # 匹配链接
+        pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+        httpLinkList = re.findall(pattern, html)
+        for httpLink in httpLinkList:
+            if httpLink.find('.m3u8') > 0:
+                m3u8UrlList.append(httpLink)
+            elif httpLink.find('.js') > 0 or httpLink.find('.php') > 0:
+                subRes = http.request('get', httpLink, headers = headers)
+                subHtml = subRes.data
+                subHtml = subHtml.decode('utf-8')
+                subHttpLinkList = re.findall(pattern, subHtml)
+                for subHttpLink in subHttpLinkList:
+                    if subHttpLink.find('.m3u8') > 0:
+                        m3u8UrlList.append(subHttpLink)
         return m3u8UrlList
 
 
