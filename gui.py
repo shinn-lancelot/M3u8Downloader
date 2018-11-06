@@ -5,7 +5,10 @@ import os
 import threading
 import random
 import string
-from PyQt5.QtWidgets import (QWidget, QPushButton, QLineEdit, QApplication, QMessageBox)
+import re
+from PyQt5.QtWidgets import (QListView, QWidget, QPushButton, QLineEdit, QApplication, QMessageBox)
+from PyQt5.QtCore import QStringListModel
+from PyQt5.QtGui import QIcon
 from spider import m3u8Spider
 from downloader import downloader
 
@@ -26,21 +29,34 @@ class Gui(QWidget):
         self.lineEdit.setGeometry(10, 10, 250, 30)
         # 定义按钮
         self.searchBtn = QPushButton('搜索', self)
-        self.searchBtn.setGeometry(270, 5, 70, 45)
+        self.searchBtn.setGeometry(270, 10, 70, 30)
         self.searchBtn.clicked.connect(self.search)
         self.downloadAllBtn = QPushButton('下载全部', self)
-        self.downloadAllBtn.setGeometry(270, 55, 70, 45)
+        self.downloadAllBtn.setGeometry(270, 50, 70, 30)
         self.downloadAllBtn.clicked.connect(
             self.downloadM3u8)
+        # 定义列表
+        self.listView = QListView(self)
+        self.listView.setGeometry(10, 50, 250, 140)
         # 定义自身窗体
         self.setGeometry(300, 300, 350, 200)
+        self.setWindowIcon(QIcon('./asset/img/logo.png'))
         self.setWindowTitle('M3u8Downloader')
+        self.setFixedSize(self.width(), self.height())
         self.show()
 
     def search(self):
-        self.websiteUrl = self.lineEdit.text()
+        self.websiteUrl = self.lineEdit.text().strip()
         if self.websiteUrl == '':
             self.alertMsg('请输入网页地址')
+        elif re.match(r'^http[s]?:/{2}\w.+$', self.websiteUrl) is None:
+            self.alertMsg('请输入合法的网页地址')
+        elif re.match(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+.m3u8', self.websiteUrl) is not None:
+            self.m3u8List.append(self.websiteUrl)
+            if len(self.m3u8List):
+                stringListModel = QStringListModel()
+                stringListModel.setStringList(self.m3u8List)
+                self.listView.setModel(stringListModel)
         else:
             spiderThread = threading.Thread(target = self.spiderM3u8List())
             spiderThread.start()
@@ -55,6 +71,11 @@ class Gui(QWidget):
             }
             self.m3u8List = p.getM3u8List('', header)
             print(self.m3u8List)
+            if len(self.m3u8List):
+                stringListModel = QStringListModel()
+                stringListModel.setStringList(self.m3u8List)
+                self.listView.setModel(stringListModel)
+
 
     def downloadM3u8(self):
         m3u8List = []
@@ -82,10 +103,11 @@ class Gui(QWidget):
                 down = downloader.Downloader(options)
                 res = down.download()
                 print(res)
+        else:
+            self.alertMsg('目前暂无可下载的m3u8地址')
 
     def alertMsg(self, text):
         QMessageBox.information(self, '消息', text)
-        sys.exit()
 
 if __name__ == '__main__':
 
