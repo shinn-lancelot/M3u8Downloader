@@ -6,7 +6,7 @@ from spider import m3u8Spider
 from downloader import downloader
 from sys import argv
 
-# example:python3 main.py http://www.jiaxingren.com/folder24/folder147/folder149/folder170/2018-10-25/416269.html
+# example:python3 cmd.py http://www.jiaxingren.com/folder24/folder147/folder149/folder170/2018-10-25/416269.html
 
 websiteUrl = ''
 if len(argv) < 2:
