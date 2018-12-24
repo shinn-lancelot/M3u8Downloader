@@ -6,6 +6,7 @@ import urllib3
 import re
 import os
 from spider import proxyIpSpider
+from spider import ipSpider
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 """
@@ -17,7 +18,8 @@ class M3u8Spider:
         self.url = url
 
     def createProxyIpPool(self):
-        p = proxyIpSpider.ProxyIpSpider()
+        # p = proxyIpSpider.ProxyIpSpider()
+        p = ipSpider.IpSpider()
         if p.spider():
             return True
         else:
