@@ -66,6 +66,8 @@ class IpSpider:
             if (self.ipNum >= self.needIpNum):
                 break
             tdNodes = trNode.find_all('td')
+            if tdNodes[5].string.lower() == 'https':
+                continue
             ipInfo = {
                 'country': tdNodes[0].get_text(),
                 'ip': tdNodes[1].string,

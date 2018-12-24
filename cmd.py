@@ -29,7 +29,7 @@ if (p.createProxyIpPool()):
         'user-agent': userAgent
     }
     # 获取m3u8di地址列表
-    m3u8List = p.getM3u8List('', header)
+    m3u8List = p.getM3u8List(proxyUrl, header)
     print(m3u8List)
 
     if len(m3u8List) > 0:
