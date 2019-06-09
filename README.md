@@ -10,18 +10,14 @@
 ### 使用
 
 1. 安装python3（python2未测试）
-
 2. 安装相应python依赖包
-
 ```
 pip install -r requirements.txt
 ```
 2. 命令行方式下载
-
 ```
 python cmd.py http:xxx.com
 ```
-
 3. gui方式
 ```
 python gui.py
